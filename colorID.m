@@ -1,7 +1,7 @@
 
 function colorID(image)
 
-image = imresize(image, [500, NaN]);
+%image = imresize(image, [500, NaN]);
 
 load regioncoordinates; 
 
@@ -25,6 +25,7 @@ for count = 1:nColors
   color_markers(count,2) = mean2(b(sample_regions(:,:,count)));
 end
 
+
 color_labels = 0:nColors-1;
 
 a = double(a);
@@ -33,7 +34,7 @@ distance = zeros([size(a), nColors]);
 
 for count = 1:nColors
   distance(:,:,count) = ( (a - color_markers(count,1)).^2 + ...
-                      (b - color_markers(count,2)).^2 ).^0.7;
+                      (b - color_markers(count,2)).^2 ).^0.5;
 end
 
 [~, label] = min(distance,[],3);
@@ -66,15 +67,16 @@ imshow(image);
 
 %}
 
-i = (segmented_images(:,:,:,6)); % blue
-j = (segmented_images(:,:,:,2)); % green
-k = (segmented_images(:,:,:,4)); %yellow and red
+%imshow(segmented_images(:,:,:,1)); % blue
+imshow(image);
+countCircles(segmented_images(:,:,:,1));
 
-imgFuse = imfuse(i, k, 'blend', 'Scaling', 'joint');
+%imgFuse = imfuse(i, j, 'blend', 'Scaling', 'joint');
 
+%imshow(i);
 
-
-countCircles(imgFuse);
+%countCircles(i);
+%countCircles(imgFuse);
 
 
 %figure;
