@@ -33,7 +33,7 @@ distance = zeros([size(a), nColors]);
 
 for count = 1:nColors
   distance(:,:,count) = ( (a - color_markers(count,1)).^2 + ...
-                      (b - color_markers(count,2)).^2 ).^0.5;
+                      (b - color_markers(count,2)).^2 ).^0.7;
 end
 
 [~, label] = min(distance,[],3);
@@ -49,7 +49,7 @@ for count = 1:nColors
   segmented_images(:,:,:,count) = color;
 end
 
-
+%{
 imshow(segmented_images(:,:,:,3)), title('Red objects');
 
 figure;
@@ -64,16 +64,24 @@ figure;
 
 imshow(image);
 
+%}
 
-i = (segmented_images(:,:,:,6));
-j = (segmented_images(:,:,:,3));
-k = (segmented_images(:,:,:,4));
+i = (segmented_images(:,:,:,6)); % blue
+j = (segmented_images(:,:,:,2)); % green
+k = (segmented_images(:,:,:,4)); %yellow and red
 
-countCircles(i);
-figure;
-countCircles(j);
-figure;
-countCircles(k);
+imgFuse = imfuse(i, k, 'blend', 'Scaling', 'joint');
+
+
+
+countCircles(imgFuse);
+
+
+%figure;
+
+%countCircles(k);
+%countCircles(j);
+%countCircles(k);
 
 %countCircles(segmented_images(:,:,:,6), title('Green'));
 
